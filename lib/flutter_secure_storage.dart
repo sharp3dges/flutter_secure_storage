@@ -8,7 +8,7 @@ import 'package:meta/meta.dart';
 class FlutterSecureStorage {
   const FlutterSecureStorage();
 
-  static const MethodChannel _channel = const MethodChannel('plugins.it_nomads.com/flutter_secure_storage');
+  static const MethodChannel _channel = const MethodChannel('plugins.sharp3dges.com/flutter_secure_storage');
 
   /// Encrypts and saves the [key] with the given [value].
   ///
