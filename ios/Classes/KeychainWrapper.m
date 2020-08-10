@@ -77,17 +77,14 @@ static const UInt8 kKeychainItemIdentifier[]    = "com.apple.dts.KeychainUI\0";
             NSAssert(NO, @"Serious error.\n");
             if (outDictionary) CFRelease(outDictionary);
         }
-        
-        NSLog(@"KEYCHAIN_ALLKEYS: %@",[_keychainData.allKeys componentsJoinedByString:@","]);
-        NSLog(@"KEYCHAIN attrService: %@", kSecAttrService);
     }
     
     return self;
 }
 - (NSDictionary *)getAll {
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithDictionary: _keychainData];
-    for (NSString *key in dict) {
-      if (![dict[key] isKindOfClass:[NSString class]]) {
+    for (NSString *key in _keychainData) {
+      if (![_keychainData[key] isKindOfClass:[NSString class]]) {
         [dict removeObjectForKey:key];
       }
     }
