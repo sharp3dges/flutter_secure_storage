@@ -18,6 +18,8 @@ static NSString *const InvalidParameters = @"Invalid parameter's type";
     self = [super init];
     if (self){
         self.wrapper = [[KeychainWrapper alloc] init];
+        NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
+        self.userDefaults = [[NSUserDefaults standardUserDefaults] persistentDomainForName:appDomain];
     }
     return self;
 }

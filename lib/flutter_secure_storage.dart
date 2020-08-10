@@ -20,7 +20,7 @@ class FlutterSecureStorage {
   Future<void> write({@required String key, @required String value, IOSOptions iOptions, AndroidOptions aOptions}) async =>
       _channel.invokeMethod('write', <String, dynamic>{'key': key, 'value': value, 'options': _selectOptions(iOptions, aOptions)});
 
-  Future<void> writeShared({@required String key, @required String value}) async =>
+  Future<void> writeShared<T>({@required String key, @required T value}) async =>
       _channel.invokeMethod('writeShared', <String, dynamic>{'key': key, 'value': value});
 
   /// Decrypts and returns the value for the given [key] or null if [key] is not in the storage.
@@ -34,10 +34,11 @@ class FlutterSecureStorage {
     return value;
   }
 
-  Future<String> readShared({@required String key}) async {
-    final String value = await _channel.invokeMethod('readShared', <String, dynamic>{'key': key});
-    return value;
+  Future<T> readShared<T>({@required String key}) async {
+    return _channel.invokeMethod('readShared', <String, dynamic>{'key': key});
   }
+
+
 
   /// Returns true if the storage contains the given [key].
   ///
@@ -77,7 +78,7 @@ class FlutterSecureStorage {
     return results.cast<String, String>();
   }
 
-  Future<Map<String, Object>> readAllShared() async {
+  Future<Map<String, dynamic>> readAllShared() async {
     return _channel.invokeMethod('readAllShared');
   }
 
