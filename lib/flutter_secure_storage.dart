@@ -78,7 +78,7 @@ class FlutterSecureStorage {
     return results.cast<String, String>();
   }
 
-  Future<Map<String, dynamic>> readAllShared() async {
+  Future<Map<String, Object>> readAllShared() async {
     return _channel.invokeMethod('readAllShared');
   }
 
