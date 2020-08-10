@@ -78,8 +78,7 @@ class FlutterSecureStorage {
   }
 
   Future<Map<String, dynamic>> readAllShared() async {
-    final Map results = await _channel.invokeMethod('readAllShared');
-    return results.cast<String, dynamic>();
+    return _channel.invokeMethod('readAllShared');
   }
 
   /// Deletes all keys with associated values.
