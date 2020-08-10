@@ -85,7 +85,7 @@ static const UInt8 kKeychainItemIdentifier[]    = "com.apple.dts.KeychainUI\0";
     return self;
 }
 - (NSDictionary *)getAll {
-    NSMutableDictionary *dict = [NSMutableDictionary initWithDictionary: _keychainData];
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithDictionary: _keychainData];
     for (NSString *key in dict) {
       if (![dict[key] isKindOfClass:[NSString class]]) {
         [dict removeObjectForKey:key];
