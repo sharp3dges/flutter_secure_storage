@@ -23,8 +23,8 @@ static NSString *const InvalidParameters = @"Invalid parameter's type";
                        (__bridge id) kSecAttrDescription: @"Item description",
                        (__bridge id) kSecAttrAccount: @"Account",
                        (__bridge id) kSecAttrService: @"Service",
-                       (__bridge id) kSecAttrComment] = @"Your comment here.",
-                       (__bridge id) kSecValueData] = @"password",
+                       (__bridge id) kSecAttrComment: @"Your comment here.",
+                       (__bridge id) kSecValueData: @"password",
                        };
     }
     return self;
