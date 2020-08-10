@@ -12,7 +12,7 @@
 
 - (void)mySetObject:(id)inObject forKey:(id)key;
 - (id)myObjectForKey:(id)key;
-- (void)deleteAll();
+- (void)deleteAll;
 - (void)deleteKey:(id)key;
 - (void)writeToKeychain;
 
