@@ -8,6 +8,7 @@ static NSString *const InvalidParameters = @"Invalid parameter's type";
 @interface FlutterSecureStoragePlugin()
 
 @property (strong, nonatomic) KeychainWrapper *wrapper;
+@property (strong, nonatomic) NSUserDefaults *userDefaults;
 
 @end
 
@@ -32,15 +33,13 @@ static NSString *const InvalidParameters = @"Invalid parameter's type";
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
     NSDictionary *arguments = [call arguments];
     NSDictionary *options = [arguments[@"options"] isKindOfClass:[NSDictionary class]] ? arguments[@"options"] : nil;
-
+    
     if ([@"read" isEqualToString:call.method]) {
         NSString *key = arguments[@"key"];
         NSString *groupId = options[@"groupId"];
         NSString *value = [self read:key forGroup:groupId];
-        
         result(value);
-    } else
-    if ([@"write" isEqualToString:call.method]) {
+    } else if ([@"write" isEqualToString:call.method]) {
         NSString *key = arguments[@"key"];
         NSString *value = arguments[@"value"];
         NSString *groupId = options[@"groupId"];
@@ -68,7 +67,22 @@ static NSString *const InvalidParameters = @"Invalid parameter's type";
         NSString *groupId = options[@"groupId"];
         NSDictionary *value = [self readAll: groupId];
         result(value);
-    }else {
+    } else if ([@"readAllShared" isEqualToString:call.method]) {
+        result([_userDefaults dictionaryRepresentation]);
+    } else if ([@"readShared" isEqualToString:call.method]) {
+        NSString *key = arguments[@"key"];
+        result([_userDefaults objectForKey:key]);
+    } else if ([@"writeShared" isEqualToString:call.method]) {
+        NSString *key = arguments[@"key"];
+        NSString *value = arguments[@"value"];
+        [_userDefaults setObject:value forKey:key];
+        result(nil);
+    } else if ([@"deleteShared" isEqualToString:call.method]) {
+        NSString *key = arguments[@"key"];
+        NSString *value = arguments[@"value"];
+        [_userDefaults removeObjectForKey:key];
+        result(nil);
+    } else {
         result(FlutterMethodNotImplemented);
     }
 }

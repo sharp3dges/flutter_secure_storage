@@ -20,6 +20,9 @@ class FlutterSecureStorage {
   Future<void> write({@required String key, @required String value, IOSOptions iOptions, AndroidOptions aOptions}) async =>
       _channel.invokeMethod('write', <String, dynamic>{'key': key, 'value': value, 'options': _selectOptions(iOptions, aOptions)});
 
+  Future<void> writeShared({@required String key, @required String value}) async =>
+      _channel.invokeMethod('writeShared', <String, dynamic>{'key': key, 'value': value});
+
   /// Decrypts and returns the value for the given [key] or null if [key] is not in the storage.
   ///
   /// [key] shoudn't be null.
@@ -28,6 +31,11 @@ class FlutterSecureStorage {
   /// Can throw a [PlatformException].
   Future<String> read({@required String key, IOSOptions iOptions, AndroidOptions aOptions}) async {
     final String value = await _channel.invokeMethod('read', <String, dynamic>{'key': key, 'options': _selectOptions(iOptions, aOptions)});
+    return value;
+  }
+
+  Future<String> readShared({@required String key}) async {
+    final String value = await _channel.invokeMethod('readShared', <String, dynamic>{'key': key});
     return value;
   }
 
@@ -42,6 +50,11 @@ class FlutterSecureStorage {
     return value != null;
   }
 
+  Future<bool> containsSharedKey({@required String key}) async {
+    final String value = await readShared(key: key);
+    return value != null;
+  }
+
   /// Deletes associated value for the given [key].
   ///
   /// [key] shoudn't be null.
@@ -50,6 +63,9 @@ class FlutterSecureStorage {
   /// Can throw a [PlatformException].
   Future<void> delete({@required String key, IOSOptions iOptions, AndroidOptions aOptions}) =>
       _channel.invokeMethod('delete', <String, dynamic>{'key': key, 'options': _selectOptions(iOptions, aOptions)});
+
+  Future<void> deleteShared({@required String key}) =>
+      _channel.invokeMethod('deleteShared', <String, dynamic>{'key': key});
 
   /// Decrypts and returns all keys with associated values.
   ///
@@ -61,6 +77,11 @@ class FlutterSecureStorage {
     return results.cast<String, String>();
   }
 
+  Future<Map<String, dynamic>> readAllShared() async {
+    final Map results = await _channel.invokeMethod('readAllShared');
+    return results.cast<String, dynamic>();
+  }
+
   /// Deletes all keys with associated values.
   ///
   /// [iOptions] optional iOS options
@@ -68,6 +89,9 @@ class FlutterSecureStorage {
   /// Can throw a [PlatformException].
   Future<void> deleteAll({IOSOptions iOptions, AndroidOptions aOptions}) =>
       _channel.invokeMethod('deleteAll', <String, dynamic>{'options': _selectOptions(iOptions, aOptions)});
+
+  Future<void> deleteAllShared() =>
+      _channel.invokeMethod('deleteAllShared');
 
   /// Select correct options based on current platform
   Map<String, String> _selectOptions(IOSOptions iOptions, AndroidOptions aOptions) {
