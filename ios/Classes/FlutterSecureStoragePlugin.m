@@ -1,6 +1,5 @@
 #import "FlutterSecureStoragePlugin.h"
 
-static NSString *const KEYCHAIN_SERVICE = @"Service";
 static NSString *const CHANNEL_NAME = @"plugins.it_nomads.com/flutter_secure_storage";
 
 static NSString *const InvalidParameters = @"Invalid parameter's type";
@@ -18,12 +17,11 @@ static NSString *const InvalidParameters = @"Invalid parameter's type";
     if (self){
         self.query = @{
                        (__bridge id) kSecClass :(__bridge id) kSecClassGenericPassword,
-                       (__bridge id) kSecAttrService: KEYCHAIN_SERVICE,
-                       (__bridge id) kSecAttrLabel: @"Item label",
-                       (__bridge id) kSecAttrDescription: @"Item description",
-                       (__bridge id) kSecAttrAccount: @"Account",
-                       (__bridge id) kSecAttrService: @"Service",
-                       (__bridge id) kSecAttrComment: @"Your comment here.",
+                       (__bridge id) kSecAttrLabel: @"labl",
+                       (__bridge id) kSecAttrDescription: @"desc",
+                       (__bridge id) kSecAttrAccount: @"acct",
+                       (__bridge id) kSecAttrService: @"svce",
+                       (__bridge id) kSecAttrComment: @"icmt",
                        (__bridge id) kSecValueData: @"password",
                        };
     }
