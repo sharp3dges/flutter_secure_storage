@@ -67,7 +67,6 @@ static NSString *const InvalidParameters = @"Invalid parameter's type";
     } else if ([@"readAll" isEqualToString:call.method]) {
         NSString *groupId = options[@"groupId"];
         NSDictionary *value = [self readAll: groupId];
-
         result(value);
     }else {
         result(FlutterMethodNotImplemented);
@@ -75,49 +74,23 @@ static NSString *const InvalidParameters = @"Invalid parameter's type";
 }
 
 - (void)write:(NSString *)value forKey:(NSString *)key forGroup:(NSString *)groupId accessibilityAttr:(NSString *)accessibility {
-    [wrapper mySetObject:(id)value forKey:(id)key];
+    [_wrapper mySetObject:(id)value forKey:(id)key];
 }
 
 - (NSString *)read:(NSString *)key forGroup:(NSString *)groupId {
-    return [wrapper myObjectForKey:(id)key];
+    return [_wrapper myObjectForKey:(id)key];
 }
 
 - (void)delete:(NSString *)key forGroup:(NSString *)groupId {
-    [wrapper deleteKey:(id)key];
+    [_wrapper deleteKey:(id)key];
 }
 
 - (void)deleteAll:(NSString *)groupId {
-    [wrapper deleteAll];
+    [_wrapper deleteAll];
 }
 
 - (NSDictionary *)readAll:(NSString *)groupId {
-    NSMutableDictionary *search = [self.query mutableCopy];
-    if(groupId != nil) {
-        search[(__bridge id)kSecAttrAccessGroup] = groupId;
-    }
-    
-    search[(__bridge id)kSecReturnData] = (__bridge id)kCFBooleanTrue;
-
-    search[(__bridge id)kSecMatchLimit] = (__bridge id)kSecMatchLimitAll;
-    search[(__bridge id)kSecReturnAttributes] = (__bridge id)kCFBooleanTrue;
-
-    CFArrayRef resultData = NULL;
-    
-    OSStatus status;
-    status = SecItemCopyMatching((__bridge CFDictionaryRef)search, (CFTypeRef*)&resultData);
-    if (status == noErr){
-        NSArray *items = (__bridge NSArray*)resultData;
-        
-        NSMutableDictionary *results = [[NSMutableDictionary alloc] init];
-        for (NSDictionary *item in items){
-            NSString *key = item[(__bridge NSString *)kSecAttrAccount];
-            NSString *value = [[NSString alloc] initWithData:item[(__bridge NSString *)kSecValueData] encoding:NSUTF8StringEncoding];
-            results[key] = value;
-        }
-        return [results copy];
-    }
-    
-    return @{};
+    return [_wrapper getAll];
 }
 
 @end

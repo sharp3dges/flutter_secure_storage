@@ -14,6 +14,7 @@
 - (id)myObjectForKey:(id)key;
 - (void)deleteAll;
 - (void)deleteKey:(id)key;
+- (NSDictionary *)getAll;
 - (void)writeToKeychain;
 
 @end
