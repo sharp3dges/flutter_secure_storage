@@ -24,6 +24,7 @@ static NSString *const InvalidParameters = @"Invalid parameter's type";
                        (__bridge id) kSecAttrComment: @"icmt",
                        (__bridge id) kSecValueData: @"password",
                        };
+        NSLog(@"KEYCHAIN ATTR: %@", self.query);
     }
     return self;
 }
